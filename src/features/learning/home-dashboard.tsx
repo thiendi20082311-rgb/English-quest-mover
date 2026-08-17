@@ -15,7 +15,7 @@ type HomeUnit = {
 };
 
 export function HomeDashboard({ unit }: { unit: HomeUnit }) {
-  const { completed, points, bestQuizPercent } = useProgress();
+  const { completed, points, bestQuizPercent, isLoading, error } = useProgress();
   const totalPoints = unit.rewards.vocabulary + unit.rewards.grammar + unit.rewards.quiz;
   const progressPercent = Math.round((points / totalPoints) * 100);
   const activities = [
@@ -93,8 +93,9 @@ export function HomeDashboard({ unit }: { unit: HomeUnit }) {
       </section>
 
       <p className="demo-note">
-        Unit 1 thật đã được ghép vào engine. Tiến trình hiện chỉ được giữ trong phiên; đăng nhập và Supabase sẽ được kết nối ở bước tiếp theo.
+        {isLoading ? "Đang đồng bộ tiến trình…" : "Tiến trình và điểm được lưu an toàn cho hồ sơ đang chọn."}
       </p>
+      {error && <p className="notice notice--error">{error}</p>}
     </main>
   );
 }

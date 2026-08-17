@@ -76,7 +76,7 @@ export function QuizEngine({ unit }: { unit: UnitContent }) {
           </p>
           <div className="button-row">
             <button type="button" className="button button--secondary" onClick={restart}>Làm lại quiz</button>
-            <Link href="/" className="button button--primary" onClick={() => completeActivity("quiz", percent)}>
+            <Link href="/" className="button button--primary">
               Về trang chủ
             </Link>
           </div>
