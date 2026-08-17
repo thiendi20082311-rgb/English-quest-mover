@@ -1,56 +1,66 @@
 "use client";
 
 import Link from "next/link";
-import { unit00Fixture } from "@/content/units/unit-00-fixture";
 import { useProgress } from "@/features/progress/progress-provider";
 
-const activities = [
-  {
-    key: "vocabulary" as const,
-    href: "/vocabulary",
-    icon: "Aa",
-    title: "Vocabulary",
-    description: "Học 5 từ mới bằng flashcard, hình ảnh và phát âm.",
-    reward: 10,
-    color: "#e2f4ff",
-  },
-  {
-    key: "grammar" as const,
-    href: "/grammar",
-    icon: "✎",
-    title: "Grammar",
-    description: "Khám phá tính từ so sánh hơn và luyện tập 3 câu.",
-    reward: 10,
-    color: "#fff0dc",
-  },
-  {
-    key: "quiz" as const,
-    href: "/quiz",
-    icon: "✓",
-    title: "Quiz",
-    description: "Thử sức với 7 câu hỏi từ ngân hàng 10 câu.",
-    reward: 20,
-    color: "#e8f6e9",
-  },
-];
+type HomeUnit = {
+  title: string;
+  descriptionVi: string;
+  level: string;
+  rewards: {
+    vocabulary: number;
+    grammar: number;
+    quiz: number;
+  };
+};
 
-export function HomeDashboard() {
+export function HomeDashboard({ unit }: { unit: HomeUnit }) {
   const { completed, points, bestQuizPercent } = useProgress();
-  const progressPercent = Math.round((points / 40) * 100);
+  const totalPoints = unit.rewards.vocabulary + unit.rewards.grammar + unit.rewards.quiz;
+  const progressPercent = Math.round((points / totalPoints) * 100);
+  const activities = [
+    {
+      key: "vocabulary" as const,
+      href: "/vocabulary",
+      icon: "Aa",
+      title: "Vocabulary",
+      description: "Học 5 từ mới bằng flashcard, hình ảnh và phát âm.",
+      reward: unit.rewards.vocabulary,
+      color: "#e2f4ff",
+    },
+    {
+      key: "grammar" as const,
+      href: "/grammar",
+      icon: "✎",
+      title: "Grammar",
+      description: "Khám phá tính từ so sánh hơn và luyện tập 3 câu.",
+      reward: unit.rewards.grammar,
+      color: "#fff0dc",
+    },
+    {
+      key: "quiz" as const,
+      href: "/quiz",
+      icon: "✓",
+      title: "Quiz",
+      description: "Thử sức với 7 câu hỏi từ ngân hàng 10 câu.",
+      reward: unit.rewards.quiz,
+      color: "#e8f6e9",
+    },
+  ];
 
   return (
     <main className="page-wrap">
       <section className="hero">
         <div className="hero__main">
-          <p className="eyebrow">Unit engine preview · A1</p>
-          <h1>{unit00Fixture.title.en}</h1>
-          <p>{unit00Fixture.descriptionVi}</p>
+          <p className="eyebrow">Unit 1 · {unit.level}</p>
+          <h1>{unit.title}</h1>
+          <p>{unit.descriptionVi}</p>
         </div>
         <aside className="hero__progress" aria-label="Tiến trình Unit">
           <div>
             <p className="eyebrow">Your progress</p>
             <h2>Keep exploring!</h2>
-            <p className="muted">Hoàn thành cả ba hoạt động để nhận 40 điểm.</p>
+            <p className="muted">Hoàn thành cả ba hoạt động để nhận {totalPoints} điểm.</p>
           </div>
           <div className="progress-ring" style={{ "--progress": `${progressPercent}%` } as React.CSSProperties}>
             <span>{progressPercent}%</span>
@@ -83,7 +93,7 @@ export function HomeDashboard() {
       </section>
 
       <p className="demo-note">
-        Đây là bản thử nghiệm engine dùng dữ liệu mẫu. Tiến trình chỉ được giữ trong phiên hiện tại; Supabase sẽ được kết nối ở Chặng 3.
+        Unit 1 thật đã được ghép vào engine. Tiến trình hiện chỉ được giữ trong phiên; đăng nhập và Supabase sẽ được kết nối ở bước tiếp theo.
       </p>
     </main>
   );
