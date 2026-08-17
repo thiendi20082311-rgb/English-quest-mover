@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
+import { AuthProvider } from "@/features/auth/auth-provider";
 import { ProgressProvider } from "@/features/progress/progress-provider";
 import "./globals.css";
 
@@ -26,9 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body>
-        <ProgressProvider>
-          <AppShell>{children}</AppShell>
-        </ProgressProvider>
+        <AuthProvider>
+          <ProgressProvider>
+            <AppShell>{children}</AppShell>
+          </ProgressProvider>
+        </AuthProvider>
       </body>
     </html>
   );
